@@ -8,14 +8,18 @@ export const Map = () => {
   ]);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((loc: any) => {
+    const watchedLocation = navigator.geolocation.watchPosition((loc: any) => {
       const {
         coords: { latitude, longitude },
       } = loc;
-      
-      console.log({latitude, longitude})
+
+      console.log({ latitude, longitude });
       setCenter([latitude, longitude]);
     });
+
+    return () => {
+      navigator.geolocation.clearWatch(watchedLocation);
+    };
   }, []);
 
   return (
